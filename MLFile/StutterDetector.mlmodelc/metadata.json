@@ -1,0 +1,96 @@
+[
+  {
+    "metadataOutputVersion" : "3.0",
+    "storagePrecision" : "Int8",
+    "outputSchema" : [
+      {
+        "isOptional" : "0",
+        "keyType" : "String",
+        "formattedType" : "Dictionary (String → Double)",
+        "type" : "Dictionary",
+        "name" : "classLabelProbs",
+        "shortDescription" : "Probability of each category"
+      },
+      {
+        "isOptional" : "0",
+        "formattedType" : "String",
+        "type" : "String",
+        "name" : "classLabel",
+        "shortDescription" : "Most likely sound category"
+      }
+    ],
+    "modelParameters" : [
+
+    ],
+    "author" : "Ben K",
+    "specificationVersion" : 4,
+    "computePrecision" : "Float16",
+    "isUpdatable" : "0",
+    "stateSchema" : [
+
+    ],
+    "availability" : {
+      "macOS" : "10.15",
+      "tvOS" : "13.0",
+      "visionOS" : "1.0",
+      "watchOS" : "6.0",
+      "iOS" : "13.0",
+      "macCatalyst" : "13.0"
+    },
+    "modelType" : {
+      "name" : "MLModelType_pipelineClassifier",
+      "structure" : [
+        {
+          "name" : "MLModelType_soundAnalysisPreprocessing"
+        },
+        {
+          "name" : "MLModelType_neuralNetwork"
+        },
+        {
+          "name" : "MLModelType_glmClassifier"
+        }
+      ]
+    },
+    "inputSchema" : [
+      {
+        "hasShapeFlexibility" : "0",
+        "isOptional" : "0",
+        "dataType" : "Float32",
+        "formattedType" : "MultiArray (Float32 15600)",
+        "shortDescription" : "Input audio samples to be classified",
+        "shape" : "[15600]",
+        "name" : "audioSamples",
+        "type" : "MultiArray"
+      }
+    ],
+    "classLabels" : [
+      "Block",
+      "DifficultToUnderstand",
+      "Interjection",
+      "Music",
+      "NaturalPause",
+      "NoSpeech",
+      "NoStutteredWords",
+      "PoorAudioQuality",
+      "Prolongation",
+      "SoundRepetition",
+      "Unsure",
+      "WordRepetition"
+    ],
+    "generatedClassName" : "StutterDetector",
+    "userDefinedMetadata" : {
+      "com.apple.createml.version" : "11.6.0",
+      "com.apple.createml.app.tag" : "78.5",
+      "com.apple.createml.app.version" : "3.0",
+      "sampleRate" : "16000",
+      "com.apple.coreml.model.preview.type" : "soundClassifier"
+    },
+    "neuralNetworkLayerTypeHistogram" : {
+      "Convolution" : 6,
+      "PoolingINVALID" : 4,
+      "ActivationReLU" : 6,
+      "Flatten" : 1
+    },
+    "method" : "predict"
+  }
+]
