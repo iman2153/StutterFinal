@@ -13,46 +13,76 @@ import Combine
 
 struct ContentView2: View {
     @ObservedObject var audioPlayer = AudioPlayer2()
-    
-    @State private var cancellables: Set < AnyCancellable> = []
+    @State private var transcript = ""
+    @State private var cancellables: Set<AnyCancellable> = []
     @State var predictions: [String: Double] = [:]
     @State var predicted: String = ""
-    
+    @State private var currentClassification = ""
     @ObservedObject var audioRecorder = AudioRecorder2()
-    
+    let speechRecognizer = SpeechRecognizer()
+    @State private var isRecognizing = false
+    @State private var isRecording = false
     
     var body: some View {
         VStack {
             RecordingsList2(audioPlayer: audioPlayer)
-            VStack {
-                ForEach(predictions.sorted(by: { $0.value > $1.value }), id: \.key) { key, value in
-                    HStack {
-                        switch key {
-                        case "NoStutteredWords":
-                            Text("No Stutters:")
-                        case "SoundRep":
-                            Text("Sound Repetition:")
-                        case "WordRep":
-                            Text("Word Repetition:")
-                        default:
-                            Text("\(key):")
-                        }
-                        Spacer()
-                        Text("\(Int(value*100.rounded()))%")
+            
+            // Classification display
+            HStack {
+                Text("\(Image(systemName: "waveform")) Classification:")
+                    .bold()
+                Text(currentClassification)
+                    .bold()
+                    .foregroundColor(.blue)
+            }
+            .font(.title3)
+            .padding(.top)
+            
+            // Transcript display
+            let padding: CGFloat = 10
+            ZStack {
+                RoundedRectangle(cornerRadius: 20)
+                    .stroke(Color.blue, lineWidth: 5)
+                    .opacity(0.3)
+                
+                ScrollView {
+                    if !transcript.isEmpty {
+                        Text(transcript)
+                            .padding(padding + 5)
+                    } else if !isRecording {
+                        Text("Press the record button to start.")
+                            .foregroundColor(.secondary)
+                            .padding(padding + 5)
+                    } else {
+                        Text("Begin speaking to start.")
+                            .foregroundColor(.secondary)
+                            .padding(padding + 5)
                     }
                 }
             }
-                .safeAreaInset(edge: .bottom) {
-                    bottomBar
-                }
+            .padding()
             
+            // Record button
+            RecordButtonView(isRecording: $isRecording) {
+                toggleRecognizer()
+            }
+            .frame(height: 60)
+            .scaleEffect(0.95)
+            .padding()
+            .background(Color.secondarySystemBackground)
+            
+            // Bottom bar
+            .safeAreaInset(edge: .bottom) {
+                bottomBar
+            }
         }
-        .onAppear{
-            subscribe()
+        .onReceive(NotificationCenter.default.publisher(for: Notification.Name("StutterResult"))) { result in
+            if let classification = result.object as? String {
+                self.currentClassification = classification
+            }
         }
-
     }
-        
+    
     var bottomBar: some View {
         VStack {
             PlayerBar2(audioPlayer: audioPlayer)
@@ -60,15 +90,14 @@ struct ContentView2: View {
         }
         .background(.thinMaterial)
     }
-    func subscribe() {
-        Manager.shared.actionStream
-            .receive(on: DispatchQueue.main)
-            .sink { [self] action in
-                self.predicted = action.predicted
-                self.predictions = action.dict
-            }
-            .store(in: &cancellables)
-    }
     
+    func toggleRecognizer() {
+        if isRecognizing {
+            speechRecognizer.stopRecording()
+            isRecognizing = false
+        } else {
+            speechRecognizer.record(to: $transcript)
+            isRecognizing = true
+        }
+    }
 }
-

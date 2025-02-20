@@ -105,8 +105,8 @@ class AudioRecorder2: NSObject, ObservableObject {
                let output = try model.prediction(audioSamples: audioData)
                 
 //                 Handle Prediction
-                print(output)
-              //  print("Predicted target: \(output)")
+               // print(output)
+               print("Predicted target: \(output)")
               //  Manager.shared.actionStream.send(Probability(dict:output.targetProbability, predicted: output.target))
               //  print("Probability: \(output.targetProbability)")
                 

@@ -10,7 +10,6 @@ struct StutterDetectorView: View {
     @State private var currentClassification = ""
     
     var body: some View {
-        NavigationView {
             VStack {
                 VStack {
                     HStack {
@@ -62,9 +61,6 @@ struct StutterDetectorView: View {
                     self.currentClassification = classification
                 }
             }
-            .navigationTitle("StutterAI")
-            .navigationBarTitleDisplayMode(.inline)
-        }
     }
     
     func toggleRecognizer() {
