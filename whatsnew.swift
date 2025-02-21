@@ -11,15 +11,15 @@ struct WhatsNewView: View {
     
     var body: some View {
         VStack(spacing: 20) {
-            Text("Introducing StutterKit")
+            Text("Meet StutterKit")
                 .font(.largeTitle)
                 .fontWeight(.bold)
             
             VStack(alignment: .leading, spacing: 10) {
-                FeatureRow(icon: "star.fill", text: "Exciting new feature 1")
-                FeatureRow(icon: "bolt.fill", text: "Performance improvements")
-                FeatureRow(icon: "paintbrush.fill", text: "Fresh new design")
+                FeatureRow(icon: "🎙️", text: "Practice rehearsing your speeches before WWDC")
+                FeatureRow(icon: "🤖", text: "Get real-time feedback with our custom machine learning model")
             }
+            
             
             Button("Get Started") {
                 isPresented = false
@@ -40,8 +40,7 @@ struct FeatureRow: View {
     
     var body: some View {
         HStack {
-            Image(systemName: icon)
-                .foregroundColor(.blue)
+            Text(icon)
             Text(text)
         }
     }
