@@ -17,28 +17,32 @@ class ResultsObserver: NSObject, SNResultsObserving {
         // Downcast the result to a classification result.
         guard let result = result as? SNClassificationResult else { return }
 
-        // Get the prediction with the highest confidence.
-        guard let classification = result.classifications.first else { return }
+        // Get all classifications
+        let classifications = result.classifications
+        guard !classifications.isEmpty else { return }
 
         // Get the starting time.
         let timeInSeconds = result.timeRange.start.seconds
-
-        // Convert the time to a human-readable string.
         let formattedTime = String(format: "%.2f", timeInSeconds)
-        print("Analysis result for audio at time: \(formattedTime)")
 
-        // Convert the confidence to a percentage string.
-        let percent = classification.confidence * 100.0
-        let percentString = String(format: "%.2f%%", percent)
+        // Print all classifications
+        for classification in classifications {
+            let percent = classification.confidence * 100.0
+            let percentString = String(format: "%.2f%%", percent)
+            print("\(classification.identifier): \(percentString) confidence.\n")
+        }
 
-        // Print the classification's name (label) with its confidence.
-        print("\(classification.identifier): \(percentString) confidence.\n")
-
-        // Capture classification.identifier outside of DispatchQueue.main.async
-        let identifier = classification.identifier
+        // Create a dictionary with all classification results
+        let classificationData = classifications.reduce(into: [String: Float]()) { dict, classification in
+            dict[classification.identifier] = Float(classification.confidence)
+        }
 
         DispatchQueue.main.async {
-            NotificationCenter.default.post(name: Notification.Name("StutterResult"), object: identifier)
+            NotificationCenter.default.post(
+                name: Notification.Name("StutterResult"),
+                object: nil,
+                userInfo: ["classifications": classificationData]
+            )
         }
     }
 

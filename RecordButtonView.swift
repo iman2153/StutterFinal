@@ -6,10 +6,11 @@
 //
 
 import SwiftUI
+import Foundation
 
 struct RecordButtonView: View {
     @Binding var isRecording: Bool
-    
+    @State var buttonSize: CGFloat = 1
     let buttonPress: () -> Void
     
     var body: some View {
@@ -24,13 +25,27 @@ struct RecordButtonView: View {
                     buttonPress()
                     isRecording.toggle()
                 } label: {
-                    RoundedRectangle(cornerRadius: isRecording ? (height * 0.05) : (height * 0.5))
-                            .fill(Color.red)
-                            .frame(width: isRecording ? (height * 0.4) : (height * 0.85), height: isRecording ? (height * 0.4) : (height * 0.85))
-                            .animation(.easeInOut(duration: 0.3), value: isRecording)
+                    Image(systemName: isRecording ? "stop.circle.fill" : "mic.circle.fill")
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: height * 0.85, height: height * 0.85)
+                        .clipped()
+                        .foregroundColor(.green)
+                        .scaleEffect(buttonSize)
+                        .onChange(of: isRecording) { isRecording in
+                            if isRecording {
+                                withAnimation(repeatingAnimation) { buttonSize = 1.1 }
+                            } else {
+                                withAnimation { buttonSize = 1 }
+                            }
+                        }
                 }
             }
         }
+    }
+    var repeatingAnimation: Animation {
+        Animation.linear(duration: 0.5)
+        .repeatForever()
     }
 }
 

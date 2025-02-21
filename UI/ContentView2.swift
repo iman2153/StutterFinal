@@ -72,11 +72,12 @@ struct ContentView2: View {
             .background(Color.secondarySystemBackground)
             
             // Bottom bar
-            .safeAreaInset(edge: .bottom) {
-                bottomBar
-            }
+//            .safeAreaInset(edge: .bottom) {
+//                bottomBar
+//            }
         }
         .onReceive(NotificationCenter.default.publisher(for: Notification.Name("StutterResult"))) { result in
+            print(result.object)
             if let classification = result.object as? String {
                 self.currentClassification = classification
             }
