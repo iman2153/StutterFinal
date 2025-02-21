@@ -16,7 +16,7 @@ class ResultsObserver: NSObject, SNResultsObserving {
     func request(_ request: SNRequest, didProduce result: SNResult) {
         // Downcast the result to a classification result.
         guard let result = result as? SNClassificationResult else { return }
-
+        guard let classification = result.classifications.first else { return }
         // Get all classifications
         let classifications = result.classifications
         guard !classifications.isEmpty else { return }
@@ -29,18 +29,18 @@ class ResultsObserver: NSObject, SNResultsObserving {
         for classification in classifications {
             let percent = classification.confidence * 100.0
             let percentString = String(format: "%.2f%%", percent)
-            print("\(classification.identifier): \(percentString) confidence.\n")
+            //print("\(classification.identifier): \(percentString) confidence.\n")
         }
 
         // Create a dictionary with all classification results
         let classificationData = classifications.reduce(into: [String: Float]()) { dict, classification in
             dict[classification.identifier] = Float(classification.confidence)
         }
-
+        let identifier = classification.identifier
         DispatchQueue.main.async {
             NotificationCenter.default.post(
                 name: Notification.Name("StutterResult"),
-                object: nil,
+                object: identifier,
                 userInfo: ["classifications": classificationData]
             )
         }

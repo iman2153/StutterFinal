@@ -14,31 +14,34 @@ struct RecordButtonView: View {
     let buttonPress: () -> Void
     
     var body: some View {
-        GeometryReader { geo in
-            let height = geo.size.height
+        HStack{
             
-            ZStack {
-               Circle()
-                    .stroke(Color.white, lineWidth: geo.size.height * (height * 0.0009))
+            GeometryReader { geo in
+                let height = geo.size.height
                 
-                Button {
-                    buttonPress()
-                    isRecording.toggle()
-                } label: {
-                    Image(systemName: isRecording ? "stop.circle.fill" : "mic.circle.fill")
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(width: height * 0.85, height: height * 0.85)
-                        .clipped()
-                        .foregroundColor(.green)
-                        .scaleEffect(buttonSize)
-                        .onChange(of: isRecording) { isRecording in
-                            if isRecording {
-                                withAnimation(repeatingAnimation) { buttonSize = 1.1 }
-                            } else {
-                                withAnimation { buttonSize = 1 }
+                ZStack {
+                    Circle()
+                        .stroke(Color.white, lineWidth: geo.size.height * (height * 0.0009))
+                    
+                    Button {
+                        buttonPress()
+                        isRecording.toggle()
+                    } label: {
+                        Image(systemName: isRecording ? "stop.circle.fill" : "mic.circle.fill")
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: height * 0.85, height: height * 0.85)
+                            .clipped()
+                            .foregroundColor(.green)
+                            .scaleEffect(buttonSize)
+                            .onChange(of: isRecording) { isRecording in
+                                if isRecording {
+                                    withAnimation(repeatingAnimation) { buttonSize = 1.1 }
+                                } else {
+                                    withAnimation { buttonSize = 1 }
+                                }
                             }
-                        }
+                    }
                 }
             }
         }

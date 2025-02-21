@@ -47,18 +47,26 @@ struct StutterDetectorView: View {
                     .padding()
                 }
                 .padding(.top)
-                
+                HStack{
+                    Spacer()
+                }
                 RecordButtonView(isRecording: $isRecording) {
                     toggleRecognizer()
                 }
+                Spacer()
                 .frame(height: 60)
                 .scaleEffect(0.95)
                 .padding()
                 .background(Color.secondarySystemBackground)
             }
             .onReceive(NotificationCenter.default.publisher(for: Notification.Name("StutterResult"))) { result in
-                if let classification = result.object as? String {
-                    self.currentClassification = classification
+                print("Received notification with userInfo:", result.userInfo ?? "nil")
+                if let userInfo = result.userInfo,
+                   let classifications = userInfo["classifications"] as? [String: Float],
+                   let highestConfidence = classifications.max(by: { $0.value < $1.value }) {
+                    print("Classifications:", classifications)
+                    print("Highest confidence:", highestConfidence)
+                    self.currentClassification = highestConfidence.key
                 }
             }
     }

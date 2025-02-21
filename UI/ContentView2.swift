@@ -77,7 +77,7 @@ struct ContentView2: View {
 //            }
         }
         .onReceive(NotificationCenter.default.publisher(for: Notification.Name("StutterResult"))) { result in
-            print(result.object)
+           // print(result.object)
             if let classification = result.object as? String {
                 self.currentClassification = classification
             }
