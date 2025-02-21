@@ -8,13 +8,13 @@ import PackageDescription
 import AppleProductTypes
 
 let package = Package(
-    name: "stutterTest3",
+    name: "StutterKit",
     platforms: [
         .iOS("16.0")
     ],
     products: [
         .iOSApplication(
-            name: "stutterTest3",
+            name: "StutterKit",
             targets: ["AppModule"],
             bundleIdentifier: "tetul.stutterTest3",
             teamIdentifier: "55N9G92HC4",
@@ -34,7 +34,8 @@ let package = Package(
             ],
             capabilities: [
                 .microphone(purposeString: "please")
-            ]
+            ],
+            appCategory: .utilities
         )
     ],
     targets: [

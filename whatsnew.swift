@@ -11,7 +11,7 @@ struct WhatsNewView: View {
     
     var body: some View {
         VStack(spacing: 20) {
-            Text("What's New")
+            Text("Introducing StutterKit")
                 .font(.largeTitle)
                 .fontWeight(.bold)
             
@@ -45,4 +45,8 @@ struct FeatureRow: View {
             Text(text)
         }
     }
+}
+
+#Preview {
+    WhatsNewView(isPresented: .constant(true))
 }
