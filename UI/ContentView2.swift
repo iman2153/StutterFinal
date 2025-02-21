@@ -12,6 +12,11 @@ import SwiftUI
 import Combine
 
 struct ContentView2: View {
+    #if DEBUG
+    @State private var showWhatsNew = true
+    #else
+    @AppStorage("hasSeenWhatsNew") private var showWhatsNew = false
+    #endif
     @ObservedObject var audioPlayer = AudioPlayer2()
     @State private var transcript = ""
     @State private var cancellables: Set<AnyCancellable> = []
@@ -76,6 +81,16 @@ struct ContentView2: View {
 //                bottomBar
 //            }
         }
+        .onAppear {
+#if !DEBUG
+            if !showWhatsNew {
+                showWhatsNew = true
+            }
+#endif
+        }
+                .sheet(isPresented: $showWhatsNew) {
+                    WhatsNewView(isPresented: $showWhatsNew)
+                }
         .onReceive(NotificationCenter.default.publisher(for: Notification.Name("StutterResult"))) { result in
            // print(result.object)
             if let classification = result.object as? String {
