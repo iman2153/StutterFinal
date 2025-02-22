@@ -11,6 +11,10 @@ struct WhatsNewView: View {
     
     var body: some View {
         VStack(spacing: 20) {
+            Image("microphone")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 200, height: 200)
             Text("Meet StutterKit")
                 .font(.largeTitle)
                 .fontWeight(.bold)
