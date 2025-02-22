@@ -29,22 +29,6 @@ struct RecordButtonView: View {
                         }
                     }
             }
-            //                    label: {
-            //                        Image(systemName: isRecording ? "stop.circle.fill" : "mic.circle.fill")
-            //                            .resizable()
-            //                            .aspectRatio(contentMode: .fill)
-            //                            .frame(width: height * 0.85, height: height * 0.85)
-            //                            .clipped()
-            //                            .foregroundColor(.green)
-            //                            .scaleEffect(buttonSize)
-            //                            .onChange(of: isRecording) { isRecording in
-            //                                if isRecording {
-            //                                    withAnimation(repeatingAnimation) { buttonSize = 1.1 }
-            //                                } else {
-            //                                    withAnimation { buttonSize = 1 }
-            //                                }
-            //                            }
-            //                    }
             isRecording ? Text("End") : Text("Start Recording")
                 
                 

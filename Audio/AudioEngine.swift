@@ -16,7 +16,7 @@ class ResultsObserver: NSObject, SNResultsObserving {
         let classifications = result.classifications
         guard !classifications.isEmpty else { return }
 
-        // Get the starting time.
+        // Get the starting timea.
         let timeInSeconds = result.timeRange.start.seconds
         let formattedTime = String(format: "%.2f", timeInSeconds)
 

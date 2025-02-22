@@ -100,8 +100,10 @@ struct ContentView2: View {
     func toggleRecognizer() {
         if isRecognizing {
             speechRecognizer.stopRecording()
+            audioRecorder.stopRecording()
             isRecognizing = false
         } else {
+            audioRecorder.startRecording()
             speechRecognizer.record(to: $transcript)
             isRecognizing = true
         }

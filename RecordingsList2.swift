@@ -81,16 +81,26 @@ struct RecordingRow2: View {
                 }
             }
             Spacer()
-            Button {
-                audioPlayer.startPlayback(recording: recording)
-            } label: {
-                Image(systemName: "play.circle.fill")
-                    .imageScale(.large)
-                    .symbolRenderingMode(.palette)
-                    .foregroundStyle(.primary, .tertiary)
+            if isPlayingThisRecording {
+                Button {
+                    audioPlayer.stopPlayback()
+                } label: {
+                    Image(systemName: "stop.circle.fill")
+                        .imageScale(.large)
+                        .font(.system(size: 30))
+                        .foregroundStyle(.green, .tertiary)
+                }
+            } else {
+                Button {
+                    audioPlayer.startPlayback(recording: recording)
+                } label: {
+                    Image(systemName: "play.circle.fill")
+                        .imageScale(.large)
+                        .font(.system(size: 30))
+                        .foregroundStyle(.green, .tertiary)
+                }
             }
         }
-        .tint(isPlayingThisRecording ? .green : .blue)
     }
     
     func getDuration(of recordingData: Data) -> TimeInterval? {

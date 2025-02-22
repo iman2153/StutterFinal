@@ -89,28 +89,6 @@ class AudioRecorder2: NSObject, ObservableObject {
                 // save the recording as object of Recording2
                 saveRecording(recordingData: recordingData)
                 // do something with the recording object
-                
-                // Convert Audio to MLMultiArray
-                let audioFile = try AVAudioFile(forReading: recordingURL)
-                let pcmBuffer = AVAudioPCMBuffer(pcmFormat: audioFile.processingFormat, frameCapacity: UInt32(audioFile.length))
-                try audioFile.read(into: pcmBuffer!)
-                
-                let audioData = try MLMultiArray(shape: [48000], dataType: MLMultiArrayDataType.float32)
-                for i in 0..<48000 {
-                    audioData[i] = NSNumber(value: Float(pcmBuffer!.floatChannelData!.pointee[i]))
-                }
-                
-                // Make Prediction
-                let model = try StutterDetector()
-               let output = try model.prediction(audioSamples: audioData)
-                
-//                 Handle Prediction
-               // print(output)
-               print("Predicted target: \(output)")
-              //  Manager.shared.actionStream.send(Probability(dict:output.targetProbability, predicted: output.target))
-              //  print("Probability: \(output.targetProbability)")
-                
-                // delete the recording stored in the temporary directory
                 deleteRecordingFile()
             } catch {
                 print("Stop Recording - Could not save recording as object of Recording2 - Cannot get the recording data from URL: \(error)")
