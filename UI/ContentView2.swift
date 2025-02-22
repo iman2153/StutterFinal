@@ -42,44 +42,24 @@ struct ContentView2: View {
             }
             .font(.title3)
             .padding(.top)
-            
-            // Transcript display
-            let padding: CGFloat = 10
-            ZStack {
-                RoundedRectangle(cornerRadius: 20)
-                    .stroke(Color.blue, lineWidth: 5)
-                    .opacity(0.3)
-                
-                ScrollView {
-                    if !transcript.isEmpty {
-                        Text(transcript)
-                            .padding(padding + 5)
-                    } else if !isRecording {
-                        Text("Press the record button to start.")
-                            .foregroundColor(.secondary)
-                            .padding(padding + 5)
-                    } else {
-                        Text("Begin speaking to start.")
-                            .foregroundColor(.secondary)
-                            .padding(padding + 5)
-                    }
-                }
-            }
-            .padding()
-            
-            // Record button
-            RecordButtonView(isRecording: $isRecording) {
-                toggleRecognizer()
-            }
-            .frame(height: 60)
-            .scaleEffect(0.95)
-            .padding()
-            .background(Color.secondarySystemBackground)
+        
+//            
+//            // Record button
+//            RecordButtonView(isRecording: $isRecording) {
+//                toggleRecognizer()
+//            }
+//            .scaleEffect(0.95)
+//            .padding()
+//            .background(Color.secondarySystemBackground)
             
             // Bottom bar
-//            .safeAreaInset(edge: .bottom) {
-//                bottomBar
-//            }
+            .safeAreaInset(edge: .bottom) {
+                HStack{
+                    Spacer()
+                    newBottomBar
+                    Spacer()
+                }
+            }
         }
         .onAppear {
 #if !DEBUG
@@ -98,6 +78,15 @@ struct ContentView2: View {
             }
         }
     }
+    var newBottomBar: some View {
+            
+            RecordButtonView(isRecording: $isRecording) {
+                toggleRecognizer()
+            }
+                    .scaleEffect(0.95)
+                    .padding()
+    }
+        
     
     var bottomBar: some View {
         VStack {
@@ -105,6 +94,7 @@ struct ContentView2: View {
             RecorderBar2(audioPlayer: audioPlayer)
         }
         .background(.thinMaterial)
+        
     }
     
     func toggleRecognizer() {

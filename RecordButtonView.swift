@@ -1,9 +1,3 @@
-//
-//  RecordButtonView.swift
-//  StutterAI
-//
-//  Created by Ben K on 10/5/21.
-//
 
 import SwiftUI
 import Foundation
@@ -14,36 +8,46 @@ struct RecordButtonView: View {
     let buttonPress: () -> Void
     
     var body: some View {
-        HStack{
-            
-            GeometryReader { geo in
-                let height = geo.size.height
+        VStack{
+            Button {
+                buttonPress()
+                isRecording.toggle()
                 
-                ZStack {
-                    Circle()
-                        .stroke(Color.white, lineWidth: geo.size.height * (height * 0.0009))
-                    
-                    Button {
-                        buttonPress()
-                        isRecording.toggle()
-                    } label: {
-                        Image(systemName: isRecording ? "stop.circle.fill" : "mic.circle.fill")
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(width: height * 0.85, height: height * 0.85)
-                            .clipped()
-                            .foregroundColor(.green)
-                            .scaleEffect(buttonSize)
-                            .onChange(of: isRecording) { isRecording in
-                                if isRecording {
-                                    withAnimation(repeatingAnimation) { buttonSize = 1.1 }
-                                } else {
-                                    withAnimation { buttonSize = 1 }
-                                }
-                            }
+            } label: {
+                Image(systemName: isRecording ? "stop.circle.fill" : "mic.circle.fill")
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: 65, height: 65)
+                    .clipped()
+                    .foregroundColor(.green)
+                    .scaleEffect(buttonSize)
+                    .onChange(of: isRecording) { isRecording in
+                        if isRecording {
+                            withAnimation(repeatingAnimation) { buttonSize = 1.1 }
+                        } else {
+                            withAnimation { buttonSize = 1 }
+                        }
                     }
-                }
             }
+            //                    label: {
+            //                        Image(systemName: isRecording ? "stop.circle.fill" : "mic.circle.fill")
+            //                            .resizable()
+            //                            .aspectRatio(contentMode: .fill)
+            //                            .frame(width: height * 0.85, height: height * 0.85)
+            //                            .clipped()
+            //                            .foregroundColor(.green)
+            //                            .scaleEffect(buttonSize)
+            //                            .onChange(of: isRecording) { isRecording in
+            //                                if isRecording {
+            //                                    withAnimation(repeatingAnimation) { buttonSize = 1.1 }
+            //                                } else {
+            //                                    withAnimation { buttonSize = 1 }
+            //                                }
+            //                            }
+            //                    }
+            isRecording ? Text("End") : Text("Start Recording")
+                
+                
         }
     }
     var repeatingAnimation: Animation {

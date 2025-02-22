@@ -1,9 +1,4 @@
 //
-//  AudioEngine.swift
-//  StutterAI
-//
-//  Created by Ben K on 10/4/21.
-//
 
 import Foundation
 import AVFoundation
