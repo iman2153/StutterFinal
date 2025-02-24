@@ -33,7 +33,7 @@ let package = Package(
                 .portraitUpsideDown(.when(deviceFamilies: [.pad]))
             ],
             capabilities: [
-                .microphone(purposeString: "please")
+                .microphone(purposeString: "StutterKit needs access to your microphone to classify your speech")
             ],
             appCategory: .utilities
         )
